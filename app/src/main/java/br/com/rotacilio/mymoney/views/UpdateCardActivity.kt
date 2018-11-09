@@ -1,7 +1,12 @@
 package br.com.rotacilio.mymoney.views
 
+import android.content.Context
+import android.content.DialogInterface
+import android.os.Build
 import android.os.Bundle
+import android.support.annotation.RequiresApi
 import android.support.design.widget.Snackbar
+import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.view.View
@@ -46,6 +51,14 @@ class UpdateCardActivity : AppCompatActivity(), CallbackRequest, View.OnClickLis
         inputPayDay.setText(mCard?.expirateDay.toString())
         val indexOfBrand = brands?.indexOf(mCard?.brand)
         spinnerFlags.setSelection(if (indexOfBrand!! < 0) 0 else indexOfBrand!!)
+        Log.d(TAG, "enabled: ${mCard?.enabled!!}")
+        if (mCard?.enabled!!) {
+            btnDeactivate.setBackgroundResource(R.drawable.bg_btn_deactivate)
+            btnDeactivate.text = getString(R.string.deactive)
+        } else {
+            btnDeactivate.setBackgroundResource(R.drawable.bg_btn_enable)
+            btnDeactivate.text = getString(R.string.active)
+        }
     }
 
     private fun loadData() {
@@ -77,21 +90,24 @@ class UpdateCardActivity : AppCompatActivity(), CallbackRequest, View.OnClickLis
 
     override fun onClick(view: View?) {
         when (view?.id) {
-            R.id.btnUpdate -> createNewCard(view)
-            R.id.btnDeactivate -> createNewCard(view)
+            R.id.btnUpdate -> updateCard(view)
+            R.id.btnDeactivate -> updateStatus()
         }
     }
 
-    private fun createNewCard(v: View?) {
+    private fun updateStatus() {
+        showConfirmationDialog(this, mCard!!)
+    }
+
+    private fun updateCard(v: View?) {
         if (isValidData(v)) {
-            val card = Card()
-            card.name = inputName.text.toString().trim()
-            card.expirateDay = inputPayDay.text.toString().trim().toInt()
-            card.brand = selectedBrand
+            mCard?.name = inputName.text.toString().trim()
+            mCard?.expirateDay = inputPayDay.text.toString().trim().toInt()
+            mCard?.brand = selectedBrand
             val cardsRequest = CardsRequest()
-            cardsRequest.createNewCard(card, object : CallbackRequest {
+            cardsRequest.updateCard(mCard!!, object : CallbackRequest {
                 override fun success(response: Any) {
-                    Snackbar.make(v!!, R.string.success_message_create_new_card, Snackbar.LENGTH_SHORT).show()
+                    Snackbar.make(v!!, R.string.success_message_update_card, Snackbar.LENGTH_SHORT).show()
                     finish()
                 }
                 override fun failure(message: String) {
@@ -119,5 +135,37 @@ class UpdateCardActivity : AppCompatActivity(), CallbackRequest, View.OnClickLis
             }
             else -> return true
         }
+    }
+
+    private fun showConfirmationDialog(context: Context, card: Card) {
+        val builder = AlertDialog.Builder(context)
+        builder.setTitle(if (card.enabled!!) R.string.title_disable_card else R.string.title_enable_card)
+        builder.setMessage(if (card.enabled!!) R.string.message_disable_card_confirmation_dialog else R.string.message_enable_card_confirmation_dialog)
+        builder.setPositiveButton(R.string.yes, object : DialogInterface.OnClickListener {
+            override fun onClick(dialogInterface: DialogInterface?, p1: Int) {
+                val request = CardsRequest()
+                request.updateStatus(card, object : CallbackRequest {
+                    override fun success(response: Any) {
+                        val result = response as Card
+                        result.let {
+                            mCard = it
+                            updateViewData()
+                            Toast.makeText(context, R.string.success_message_disable_card, Toast.LENGTH_SHORT).show()
+                            return
+                        }
+                        Toast.makeText(context, R.string.unknown_error_message, Toast.LENGTH_SHORT).show()
+                    }
+                    override fun failure(message: String) {
+                        Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
+                    }
+                }, context)
+            }
+        })
+        builder.setNegativeButton(R.string.no, object : DialogInterface.OnClickListener {
+            override fun onClick(p0: DialogInterface?, p1: Int) {
+                p0?.dismiss()
+            }
+        })
+        builder.create().show()
     }
 }

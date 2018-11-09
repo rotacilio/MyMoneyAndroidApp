@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.support.v7.app.AlertDialog
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import br.com.rotacilio.mymoney.R
@@ -44,13 +45,14 @@ class CardsAdapter : RecyclerView.Adapter<CardViewHolder>() {
         holder.payDay.text = "${holder.itemView.context.getString(R.string.pay_day)} ${String.format("%02d", card.expirateDay)}"
 
         if (card.enabled!!) {
+            holder.btnDeleteCard.visibility = View.VISIBLE
             holder.status.text = holder.itemView.context.getString(R.string.enabled)
             holder.status.setTextColor(holder.itemView.context.resources.getColor(R.color.colorGreenPrimaryDark))
         } else {
+            holder.btnDeleteCard.visibility = View.GONE
             holder.status.text = holder.itemView.context.getString(R.string.disabled)
             holder.status.setTextColor(holder.itemView.context.resources.getColor(R.color.colorRedPrimaryDark))
         }
-        holder.status.text = if (card.enabled!!) holder.itemView.context.getString(R.string.enabled) else holder.itemView.context.getString(R.string.disabled)
         holder.btnDeleteCard.setOnClickListener {
             showConfirmationDialog(holder.itemView.context, card)
         }
@@ -63,21 +65,22 @@ class CardsAdapter : RecyclerView.Adapter<CardViewHolder>() {
 
     private fun showConfirmationDialog(context: Context, card: Card) {
         val builder = AlertDialog.Builder(context)
-        builder.setTitle(R.string.title_confirmation_dialog)
-        builder.setMessage(R.string.message_delete_confirmation_dialog)
+        builder.setTitle(R.string.title_disable_card)
+        builder.setMessage(R.string.message_disable_card_confirmation_dialog)
         builder.setPositiveButton(R.string.yes, object : DialogInterface.OnClickListener {
             override fun onClick(dialogInterface: DialogInterface?, p1: Int) {
                 val request = CardsRequest()
-                request.deleteCardById(card.id!!, object : CallbackRequest {
+                request.updateStatus(card, object : CallbackRequest {
                     override fun success(response: Any) {
-                        val result = response as Boolean
-                        if (result) {
-                            mCards.remove(card)
-                            notifyDataSetChanged()
-                            Toast.makeText(context, R.string.success_message_delete_card, Toast.LENGTH_SHORT).show()
-                        } else {
-                            Toast.makeText(context, R.string.unknown_error_message, Toast.LENGTH_SHORT).show()
+                        val result = response as Card
+                        result.let {
+                            val index = mCards.indexOf(it)
+                            mCards[index] = it
+                            notifyItemChanged(index)
+                            Toast.makeText(context, R.string.success_message_disable_card, Toast.LENGTH_SHORT).show()
+                            return
                         }
+                        Toast.makeText(context, R.string.unknown_error_message, Toast.LENGTH_SHORT).show()
                     }
                     override fun failure(message: String) {
                         Toast.makeText(context, message, Toast.LENGTH_SHORT).show()

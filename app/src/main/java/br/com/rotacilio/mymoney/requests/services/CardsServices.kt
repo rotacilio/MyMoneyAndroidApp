@@ -15,4 +15,7 @@ interface CardsServices {
 
     @POST("cards")
     fun createNewCard(@Body card: Card): Call<Card>
+
+    @PUT("cards")
+    fun updateCard(@Body card: Card): Call<Card>
 }

@@ -27,15 +27,16 @@ class CardsRequest : BaseRequest() {
         })
     }
 
-    fun deleteCardById(cardId: String, callbackRequest: CallbackRequest, context: Context) {
+    fun updateStatus(card: Card, callbackRequest: CallbackRequest, context: Context) {
         super.call(callbackRequest, context)
-        val call = mCardsServices?.deleteCardById(cardId)
-        call?.enqueue(object : Callback<Boolean> {
-            override fun onFailure(call: Call<Boolean>, t: Throwable) {
+        card.enabled = !card.enabled!!
+        val call = mCardsServices?.updateCard(card)
+        call?.enqueue(object : Callback<Card> {
+            override fun onFailure(call: Call<Card>, t: Throwable) {
                 mCallbackRequest?.failure(t.message!!)
             }
 
-            override fun onResponse(call: Call<Boolean>, response: Response<Boolean>) {
+            override fun onResponse(call: Call<Card>, response: Response<Card>) {
                 if (!response.isSuccessful) {
                     mCallbackRequest?.failure("Error")
                 } else {
@@ -48,6 +49,23 @@ class CardsRequest : BaseRequest() {
     fun createNewCard(card: Card, callbackRequest: CallbackRequest, context: Context) {
         super.call(callbackRequest, context)
         val call = mCardsServices?.createNewCard(card)
+        call?.enqueue(object : Callback<Card> {
+            override fun onFailure(call: Call<Card>, t: Throwable) {
+                mCallbackRequest?.failure(t.message!!)
+            }
+            override fun onResponse(call: Call<Card>, response: Response<Card>) {
+                if (!response.isSuccessful) {
+                    mCallbackRequest?.failure("Error")
+                } else {
+                    mCallbackRequest?.success(response.body()!!)
+                }
+            }
+        })
+    }
+
+    fun updateCard(card: Card, callbackRequest: CallbackRequest, context: Context) {
+        super.call(callbackRequest, context)
+        val call = mCardsServices?.updateCard(card)
         call?.enqueue(object : Callback<Card> {
             override fun onFailure(call: Call<Card>, t: Throwable) {
                 mCallbackRequest?.failure(t.message!!)

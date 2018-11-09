@@ -45,4 +45,11 @@
     <string name="deactive">Desativar</string>
     <string name="enabled">Ativo</string>
     <string name="disabled">Inativo</string>
+    <string name="title_disable_card">Desativar Cartão</string>
+    <string name="message_disable_card_confirmation_dialog">Deseja realmente desativar o cartão selecionado?</string>
+    <string name="success_message_disable_card">Cartão desativado com sucesso</string>
+    <string name="active">Ativar</string>
+    <string name="title_enable_card">Ativar Cartão</string>
+    <string name="message_enable_card_confirmation_dialog">Deseja realmente ativar o cartão selecionado?</string>
+    <string name="success_message_update_card">Cartão atualizado com sucesso</string>
 </resources>
