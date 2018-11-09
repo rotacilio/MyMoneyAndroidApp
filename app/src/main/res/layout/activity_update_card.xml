@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <include layout="@layout/form_card"
+        android:id="@+id/formLayout"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <Button
+        android:id="@+id/btnUpdate"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin16"
+        android:layout_marginLeft="@dimen/margin8"
+        android:layout_marginBottom="@dimen/margin16"
+        android:layout_marginRight="@dimen/margin16"
+        android:background="@drawable/bg_btn_primary"
+        android:textColor="@color/colorWhite"
+        android:text="@string/update"
+        app:layout_constraintStart_toEndOf="@+id/btnDeactivate"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/formLayout"
+        app:layout_constraintVertical_bias="1"/>
+
+    <Button
+        android:id="@+id/btnDeactivate"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/margin16"
+        android:layout_marginRight="@dimen/margin8"
+        android:background="@drawable/bg_btn_deactivate"
+        android:textColor="@color/colorWhite"
+        android:text="@string/deactive"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/btnUpdate"
+        app:layout_constraintBottom_toBottomOf="@id/btnUpdate"
+        app:layout_constraintTop_toTopOf="@id/btnUpdate"/>
+
+</android.support.constraint.ConstraintLayout>

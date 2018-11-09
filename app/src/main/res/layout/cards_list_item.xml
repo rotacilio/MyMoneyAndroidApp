@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <ImageView
+        android:id="@+id/cardFlag"
+        android:layout_width="60dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin16"
+        android:layout_marginBottom="@dimen/margin16"
+        android:layout_marginLeft="@dimen/margin16"
+        android:adjustViewBounds="true"
+        tools:srcCompat="@drawable/ic_mastercard"
+        app:layout_constraintTop_toTopOf="@+id/layoutInfo"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="@+id/layoutInfo"/>
+
+    <LinearLayout
+        android:id="@+id/layoutInfo"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin16"
+        android:layout_marginBottom="@dimen/margin16"
+        android:layout_marginStart="@dimen/margin16"
+        android:layout_marginEnd="@dimen/margin16"
+        android:orientation="vertical"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@id/cardFlag"
+        app:layout_constraintEnd_toStartOf="@id/btnDeleteCategory">
+
+        <TextView
+            android:id="@+id/txtCardName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="left"
+            android:textSize="@dimen/text_size_16"
+            android:textColor="@color/colorTextBlack87"
+            tools:text="Itaúcard"/>
+
+        <TextView
+            android:id="@+id/txtCardPayDay"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="left"
+            android:textSize="@dimen/text_size_14"
+            android:textColor="@color/colorTextBlack54"
+            tools:text="Vencimento: 06"/>
+
+        <TextView
+            android:id="@+id/txtCardStatus"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="left"
+            android:textSize="@dimen/text_size_14"
+            android:textColor="@color/colorRedPrimaryDark"
+            android:textAllCaps="true"
+            tools:text="INATIVO"/>
+
+    </LinearLayout>
+
+    <ImageButton
+        android:id="@+id/btnDeleteCategory"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:background="@color/colorTransparent"
+        app:srcCompat="@drawable/ic_close_black_24dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+</android.support.constraint.ConstraintLayout>

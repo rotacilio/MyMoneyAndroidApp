@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/flagImage"
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:adjustViewBounds="true"
+        app:srcCompat="@drawable/ic_mastercard"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="@dimen/margin16"
+        android:layout_marginTop="@dimen/margin16"
+        android:layout_marginBottom="@dimen/margin16"/>
+
+    <TextView
+        android:id="@+id/flagName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/colorTextBlack87"
+        android:textSize="@dimen/text_size_16"
+        android:gravity="left|center_vertical"
+        tools:text="Mastercard"
+        android:layout_toRightOf="@id/flagImage"
+        android:layout_marginLeft="@dimen/margin16"
+        android:layout_marginBottom="@dimen/margin16"
+        android:layout_marginTop="@dimen/margin16"
+        android:layout_centerVertical="true"/>
+
+</RelativeLayout>

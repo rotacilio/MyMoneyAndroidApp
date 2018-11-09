@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/inputLayoutName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin16"
+        android:layout_marginStart="@dimen/margin16"
+        android:layout_marginEnd="@dimen/margin16"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+        <EditText
+            android:id="@+id/inputName"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:hint="@string/name"
+            android:inputType="textCapWords"/>
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/inputLayoutPayDay"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin8"
+        app:layout_constraintTop_toBottomOf="@id/inputLayoutName"
+        app:layout_constraintStart_toStartOf="@id/inputLayoutName"
+        app:layout_constraintEnd_toEndOf="@id/inputLayoutName">
+        <EditText
+            android:id="@+id/inputPayDay"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:hint="@string/pay_day"
+            android:inputType="number"/>
+    </android.support.design.widget.TextInputLayout>
+
+    <Spinner
+        android:id="@+id/spinnerFlags"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin8"
+        android:layout_marginBottom="@dimen/margin16"
+        android:spinnerMode="dropdown"
+        android:prompt="@string/select_a_flag"
+        style="@style/Base.Widget.AppCompat.Spinner.Underlined"
+        app:layout_constraintTop_toBottomOf="@id/inputLayoutPayDay"
+        app:layout_constraintStart_toStartOf="@id/inputLayoutPayDay"
+        app:layout_constraintEnd_toEndOf="@id/inputLayoutPayDay"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+</android.support.constraint.ConstraintLayout>

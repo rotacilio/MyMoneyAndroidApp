@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="br.com.rotacilio.mymoney">
+
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <application
+        android:name=".MyApp"
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme"
+        android:usesCleartextTraffic="true">
+        <activity
+            android:name=".views.MainActivity"
+            android:label="@string/title_activity_main"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".views.CardsListActivity"
+            android:label="@string/my_cards"
+            android:screenOrientation="portrait"
+            android:parentActivityName=".views.MainActivity" />
+        <activity android:name=".views.NewCardActivity"
+            android:label="@string/new_card"
+            android:screenOrientation="portrait"
+            android:parentActivityName=".views.CardsListActivity" />
+        <activity android:name=".views.UpdateCardActivity"
+            android:label="@string/update_card"
+            android:screenOrientation="portrait"
+            android:parentActivityName=".views.CardsListActivity" />
+    </application>
+
+</manifest>

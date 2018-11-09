@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "923472999755",
+    "firebase_url": "https://meu-dinheiro-d7dac.firebaseio.com",
+    "project_id": "meu-dinheiro-d7dac",
+    "storage_bucket": "meu-dinheiro-d7dac.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:923472999755:android:674282c4c674d845",
+        "android_client_info": {
+          "package_name": "br.com.rotacilio.mymoney"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "923472999755-3b1gu9due67l2im8csnt0g81mhpd3ejj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCfPcfls1i9EF0uzcoiSz-LkPmP72mBOcU"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
