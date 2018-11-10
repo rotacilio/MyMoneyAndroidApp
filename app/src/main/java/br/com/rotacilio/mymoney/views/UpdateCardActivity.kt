@@ -150,7 +150,9 @@ class UpdateCardActivity : AppCompatActivity(), CallbackRequest, View.OnClickLis
                         result.let {
                             mCard = it
                             updateViewData()
-                            Toast.makeText(context, R.string.success_message_disable_card, Toast.LENGTH_SHORT).show()
+                            Toast.makeText(context,
+                                    if (it.enabled!!) R.string.success_message_enable_card else R.string.success_message_disable_card,
+                                    Toast.LENGTH_SHORT).show()
                             return
                         }
                         Toast.makeText(context, R.string.unknown_error_message, Toast.LENGTH_SHORT).show()

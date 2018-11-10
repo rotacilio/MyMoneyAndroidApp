@@ -52,4 +52,5 @@
     <string name="title_enable_card">Ativar Cartão</string>
     <string name="message_enable_card_confirmation_dialog">Deseja realmente ativar o cartão selecionado?</string>
     <string name="success_message_update_card">Cartão atualizado com sucesso</string>
+    <string name="success_message_enable_card">Cartão ativado com sucesso</string>
 </resources>
