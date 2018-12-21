@@ -1,5 +1,6 @@
 package br.com.rotacilio.mymoney.views
 
+import android.app.ProgressDialog
 import android.content.Context
 import android.content.DialogInterface
 import android.os.Build
@@ -15,6 +16,7 @@ import android.widget.Toast
 import br.com.rotacilio.mymoney.R
 import br.com.rotacilio.mymoney.adapters.MyFlagsSpinnerAdapter
 import br.com.rotacilio.mymoney.commons.CallbackRequest
+import br.com.rotacilio.mymoney.commons.Utils
 import br.com.rotacilio.mymoney.domain.Brand
 import br.com.rotacilio.mymoney.domain.Card
 import br.com.rotacilio.mymoney.requests.BrandsRequest
@@ -32,6 +34,7 @@ class UpdateCardActivity : AppCompatActivity(), CallbackRequest, View.OnClickLis
     private var spinnerAdapter: MyFlagsSpinnerAdapter? = null
     private var selectedBrand: Brand? = null
     private var brands: MutableList<Brand?>? = null
+    private var progressDialog: ProgressDialog? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -62,6 +65,7 @@ class UpdateCardActivity : AppCompatActivity(), CallbackRequest, View.OnClickLis
     }
 
     private fun loadData() {
+        progressDialog = Utils.showProgressDialog(this, getString(R.string.loading_brands))
         val request = BrandsRequest()
         request.findAll(this, this)
     }
@@ -82,10 +86,12 @@ class UpdateCardActivity : AppCompatActivity(), CallbackRequest, View.OnClickLis
         brands?.add(0, null)
         spinnerAdapter?.mFlags = brands
         updateViewData()
+        Utils.dismissProgressDialog(progressDialog)
     }
 
     override fun failure(message: String) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+        Utils.dismissProgressDialog(progressDialog)
     }
 
     override fun onClick(view: View?) {
@@ -101,17 +107,20 @@ class UpdateCardActivity : AppCompatActivity(), CallbackRequest, View.OnClickLis
 
     private fun updateCard(v: View?) {
         if (isValidData(v)) {
+            progressDialog = Utils.showProgressDialog(this, getString(R.string.updating_card))
             mCard?.name = inputName.text.toString().trim()
             mCard?.expirateDay = inputPayDay.text.toString().trim().toInt()
             mCard?.brand = selectedBrand
             val cardsRequest = CardsRequest()
             cardsRequest.updateCard(mCard!!, object : CallbackRequest {
                 override fun success(response: Any) {
-                    Snackbar.make(v!!, R.string.success_message_update_card, Snackbar.LENGTH_SHORT).show()
+                    Toast.makeText(baseContext, R.string.success_message_update_card, Toast.LENGTH_SHORT).show()
+                    Utils.dismissProgressDialog(progressDialog)
                     finish()
                 }
                 override fun failure(message: String) {
-                    Snackbar.make(v!!, message, Snackbar.LENGTH_SHORT).show()
+                    Toast.makeText(baseContext, message, Toast.LENGTH_SHORT).show()
+                    Utils.dismissProgressDialog(progressDialog)
                 }
             }, this)
         }

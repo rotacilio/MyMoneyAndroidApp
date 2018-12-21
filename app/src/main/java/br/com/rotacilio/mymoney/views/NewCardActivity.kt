@@ -1,5 +1,6 @@
 package br.com.rotacilio.mymoney.views
 
+import android.app.ProgressDialog
 import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.support.v4.app.NavUtils
@@ -11,6 +12,7 @@ import android.widget.Toast
 import br.com.rotacilio.mymoney.R
 import br.com.rotacilio.mymoney.adapters.MyFlagsSpinnerAdapter
 import br.com.rotacilio.mymoney.commons.CallbackRequest
+import br.com.rotacilio.mymoney.commons.Utils
 import br.com.rotacilio.mymoney.domain.Brand
 import br.com.rotacilio.mymoney.domain.Card
 import br.com.rotacilio.mymoney.requests.BrandsRequest
@@ -27,6 +29,7 @@ class NewCardActivity : AppCompatActivity(), CallbackRequest, View.OnClickListen
     private var spinnerAdapter: MyFlagsSpinnerAdapter? = null
     private var selectedBrand: Brand? = null
     private var brands: MutableList<Brand?>? = null
+    private var progressDialog: ProgressDialog? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,6 +42,7 @@ class NewCardActivity : AppCompatActivity(), CallbackRequest, View.OnClickListen
     }
 
     private fun loadData() {
+        progressDialog = Utils.showProgressDialog(this, getString(R.string.loading_brands))
         val request = BrandsRequest()
         request.findAll(this, this)
     }
@@ -58,10 +62,12 @@ class NewCardActivity : AppCompatActivity(), CallbackRequest, View.OnClickListen
         brands = response as MutableList<Brand?>?
         brands?.add(0, null)
         spinnerAdapter?.mFlags = brands
+        Utils.dismissProgressDialog(progressDialog)
     }
 
     override fun failure(message: String) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+        Utils.dismissProgressDialog(progressDialog)
     }
 
     override fun onClick(view: View?) {
@@ -72,6 +78,7 @@ class NewCardActivity : AppCompatActivity(), CallbackRequest, View.OnClickListen
 
     private fun createNewCard(v: View?) {
         if (isValidData(v)) {
+            progressDialog = Utils.showProgressDialog(this, getString(R.string.persisting_card))
             val card = Card()
             card.name = inputName.text.toString().trim()
             card.expirateDay = inputPayDay.text.toString().trim().toInt()
@@ -79,11 +86,13 @@ class NewCardActivity : AppCompatActivity(), CallbackRequest, View.OnClickListen
             val cardsRequest = CardsRequest()
             cardsRequest.createNewCard(card, object : CallbackRequest {
                 override fun success(response: Any) {
-                    Snackbar.make(v!!, R.string.success_message_create_new_card, Snackbar.LENGTH_SHORT).show()
+                    Toast.makeText(baseContext, R.string.success_message_create_new_card, Toast.LENGTH_SHORT).show()
+                    Utils.dismissProgressDialog(progressDialog)
                     finish()
                 }
                 override fun failure(message: String) {
-                    Snackbar.make(v!!, message, Snackbar.LENGTH_SHORT).show()
+                    Toast.makeText(baseContext, message, Toast.LENGTH_SHORT).show()
+                    Utils.dismissProgressDialog(progressDialog)
                 }
             }, this)
         }
